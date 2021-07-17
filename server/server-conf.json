@@ -1,0 +1,6 @@
+{
+  "SERVER_PORT": 8080,
+  "API_BASE_URL": "https://shri.yandex/hw/api/",
+  "CHECK_AVAILABLE_AGENTS_PERIOD": 0.25,
+  "CHECK_AGENT_BUILD_PROGRESS_PERIOD": 5
+}

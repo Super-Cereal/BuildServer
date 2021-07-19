@@ -6,11 +6,11 @@ const notifyAgent = (agentsConsole) => async (req, res) => {
   try {
     const { host, port } = req.body;
     agentsConsole.addAgent({ host, port });
-    console.log('\tАгент зарегестрирован');
+    console.log('=> Агент зарегестрирован');
     res.send({ status: 200 });
   } catch (e) {
-    console.log('\tАгент не зарегестрирован - ошибка:');
-    console.log(`\t\t${e}`);
+    console.log('=> Агент не зарегестрирован - ошибка:');
+    console.log(`=> => ${e}`);
     res.send({ status: 400, error: e });
   }
 };
@@ -29,12 +29,12 @@ const notifyBuildResult = (agentsConsole) => async (req, res) => {
     finishBuild({ buildId, status, buildLog, duration });
 
     agentsConsole.freeAgent(agent);
-    console.log('\tАгент освобожден');
+    console.log('=> Агент освобожден');
 
     res.send({ status: 200 });
   } catch (e) {
-    console.log('\tАгент не освобожден - ошибка:');
-    console.log(`\t\t${e}`);
+    console.log('=> Агент не освобожден - ошибка:');
+    console.log(`=> => ${e}`);
     res.send({ status: 400, error: e });
   }
 };

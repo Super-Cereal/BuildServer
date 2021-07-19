@@ -1,35 +1,23 @@
 const express = require('express');
 require('dotenv').config();
 
-const { port } = require('../agent-conf.json');
+const { port, host } = require('../agent-conf.json');
 
 const { buildHandler, buildStatusHandler } = require('./controllers/build');
 
 const applyMiddlewares = require('./applyMiddlewares');
-const setLocalValues = require('./setLocalValues');
+const setLocalValues = require('./setLocalValues/setLocalValues');
 const notifyCiServer = require('./notifiers/notifyCiServer');
 
-// let accessPort;
-// console.log(process.argv);
-// process.argv.forEach((val) => {
-//   if (val.split('=')[0] === 'port') {
-//     accessPort = val.split('=')[1];
-//   }
-// });
-
-if (!port) {
-  console.log('порт не передан');
-} else {
-  console.log(`Агент будет доступен по порту ${port}`);
-}
+const accessPort = process.env.PORT || port;
+console.log(`Агент будет доступен по порту ${accessPort}`);
 
 const app = express();
 applyMiddlewares(app);
 
-const host = '127.0.0.1';
-setLocalValues(app, { host, port });
+setLocalValues(app, { host, accessPort });
 
-app.get('*', (req, res) => {
+app.get('*', (_, res) => {
   res.send({ status: 404 });
 });
 
@@ -43,5 +31,5 @@ app.post(
 app.listen(port, () => {
   console.log(`Server has started at port ${port}`);
 
-  notifyCiServer({ host, port });
+  notifyCiServer({ host, port: accessPort });
 });

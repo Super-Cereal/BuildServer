@@ -7,14 +7,14 @@ const existsAsync = util.promisify(fs.exists);
 const execAsync = util.promisify(require('child_process').exec);
 
 module.exports = {
- deleteDir: async (path) => {
-   await removeDirAsync(path, {
-     recursive: true,
-      force: true,
-   });
+  deleteSavedRepository: async () => {
+    if (await existsAsync('./data/Repository')) {
+      await removeDirAsync('./data/Repository', {
+        recursive: true,
+        force: true,
+      });
+    }
   },
-
-  exists: (path) => existsAsync(path),
 
   exec: execAsync,
 };

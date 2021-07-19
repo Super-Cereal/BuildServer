@@ -1,21 +1,21 @@
 /* eslint-disable consistent-return */
-const { exec } = require('../fs');
+const { exec } = require('./fs');
 
 const buildProccess = async ({ commitHash, buildCommand }) => {
-  console.log('\tНачало билда');
+  console.log('\n=> Начало билда');
 
   await exec(`cd data/Repository && git checkout ${commitHash}`);
 
-  console.log(`Начало исполнения команды ${buildCommand}`);
-  console.time('\t\tдлительность билда');
+  console.log(`=> => Начало исполнения команды ${buildCommand}`);
+  console.time('=> => => длительность билда');
   const response = await exec(`cd data/Repository && ${buildCommand}`);
-  console.timeEnd('\t\tдлительность билда');
+  console.timeEnd('=> => => длительность билда');
 
   const result = response.stderr
     ? { status: 1, buildLog: response.stderr }
     : { status: 0, buildLog: response.stdout };
 
-  console.log(`\t\t...билд завершен с результатом ${JSON.stringify(result)}`);
+  console.log(`=> => => ...билд завершен с результатом ${JSON.stringify(result)}`);
   return result;
 };
 

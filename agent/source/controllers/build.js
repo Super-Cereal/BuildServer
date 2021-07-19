@@ -1,4 +1,4 @@
-const buildProccess = require('../utils/childProccess/buildProccess');
+const execBuild = require('../utils/execBuild');
 const notifyBuildIsReady = require('../notifiers/notifyBuildIsReady');
 
 // req.body = { buildId, repoName, commitHash, buildCommand }
@@ -14,7 +14,7 @@ const buildHandler =
 
     const startTimestamp = new Date();
     setBuildStatus('active');
-    const res = await buildProccess({ commitHash, buildCommand });
+    const res = await execBuild({ commitHash, buildCommand });
     setBuildStatus('finished');
 
     notifyBuildIsReady(
@@ -27,7 +27,7 @@ const buildHandler =
       { host, accessPort }
     );
 
-    console.log('...процесс билда завершен');
+    console.log('=> ...процесс билда завершен');
   };
 
 const buildStatusHandler = (getBuildStatus) => async (_, res) => {

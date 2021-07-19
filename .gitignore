@@ -22,7 +22,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-./agent/data/**
+./agent/data/Repository
 
 /server/node_modules
 /agent/node_modules

@@ -34,7 +34,7 @@ class AgentsConsole {
   }
 
   addAgent({ host, port }) {
-    console.log(`\tДобавление агента в базу (host: ${host}; port: ${port})...`);
+    console.log(`=> Добавление агента в базу (host: ${host}; port: ${port})...`);
 
     this._agents.forEach((agn) => {
       if (agn.port === port && agn.host === host) {
@@ -47,7 +47,7 @@ class AgentsConsole {
     this._agents.push(agentData);
     this._newAgentId += 1;
 
-    console.log(`\t\t...успешно (host: ${agentData.host}; port: ${agentData.port})`);
+    console.log(`=> => ...успешно (host: ${agentData.host}; port: ${agentData.port})`);
   }
 
   __watchAgent(agent, period, restoreBuild) {
@@ -60,7 +60,7 @@ class AgentsConsole {
 
   __removeAgent(agent) {
     let found = false;
-    console.log(`\t\tУдаление агента (host: ${agent.host}; port: ${agent.port}) из базы...`);
+    console.log(`=> => Удаление агента (host: ${agent.host}; port: ${agent.port}) из базы...`);
     this._agents = this._agents.filter((agn) => {
       if (agn.id === agent.id) {
         found = true;
@@ -70,9 +70,9 @@ class AgentsConsole {
       return true;
     });
     if (!found) {
-      console.warn(`\t\t\tагент (host: ${agent.host}; port: ${agent.port}) не найден`);
+      console.warn(`=> => => агент (host: ${agent.host}; port: ${agent.port}) не найден`);
     }
-    console.log(`\t\t\t...успешно (host: ${agent.host}; port: ${agent.port})`);
+    console.log(`=> => => ...успешно (host: ${agent.host}; port: ${agent.port})`);
   }
 
   takeAgent(agent, { buildId, commitHash }) {
@@ -85,7 +85,7 @@ class AgentsConsole {
   }
 
   freeAgent(agent) {
-    console.log(`\tОсвобождение агента (host: ${agent.host}; port: ${agent.port})...`);
+    console.log(`=> Освобождение агента ${agent.host}:${agent.port}...`);
 
     let found = false;
 
@@ -96,13 +96,13 @@ class AgentsConsole {
         agn._watcher = null;
 
         if (agn._status === FREE) {
-          console.warn(`\t\tагент (host: ${agn.host}; port: ${agn.port}) уже свободен`);
+          console.warn(`=> => агент ${agn.host}:${agn.port} уже свободен`);
         }
-        console.log(`\t\t...успешно (host: ${agn.host}; port: ${agn.port})`);
+        console.log(`=> => ...успешно ${agent.host}:${agent.port}`);
         agn._status = FREE;
       }
     });
-    if (!found) throw Error(`Агент c id ${agent.id} не найден`);
+    if (!found) throw Error(`Агент ${agent.host}:${agent.port} не найден`);
   }
 
   killAgent(agent) {
@@ -120,21 +120,21 @@ class AgentsConsole {
   }
 
   killUnvailableAgents() {
-    console.log('\nНачалась проверка на доступность агентов...');
+    console.log('=> Началась проверка на доступность агентов...');
 
     const func = (resolve) => {
       const agents = this.getFreeAgents();
       let uncheckedAgents = agents.length;
       if (!uncheckedAgents) {
-        console.log(`\t...свободных агентов нет, занятых - ${this.getBuzyAgents().length}`);
-        return;
+        console.log(`=> => ...свободных агентов нет, занятых - ${this.getBuzyAgents().length}`);
+        resolve();
       }
 
       agents.forEach(async (agn) => {
         const res = await this.__checkAgentAvailability(agn);
 
         if (!res.available) {
-          console.log(`\tАгент (host: ${agn.host}; port: ${agn.port}) недоступен`);
+          console.log(`=> => Агент (host: ${agn.host}; port: ${agn.port}) недоступен`);
 
           this.killAgent(res.agent);
         }
@@ -142,9 +142,9 @@ class AgentsConsole {
         uncheckedAgents -= 1;
         if (uncheckedAgents === 0) {
           console.log(
-            `\t...проверка на доступность агентов завершена,\tсвободных агентов - ${
-              this._agents.length
-            },\tзанятых агентов - ${this.getBuzyAgents().length}`
+            `=> => ...проверка на доступность агентов завершена, свободных агентов - ${
+              this.getFreeAgents().length
+            }, занятых агентов - ${this.getBuzyAgents().length}`
           );
           resolve();
         }

@@ -1,13 +1,13 @@
 const axios = require('axios');
 
-const build = async ({
+const build = ({
   agent,
   buildData: { buildId, repoName, commitHash, buildCommand },
   restoreBuild,
 }) => {
   const baseUrl = `http://${agent.host}:${agent.port}`;
 
-  const response = await axios
+  axios
     .post(`${baseUrl}/build`, { buildId, repoName, commitHash, buildCommand })
     .then((res) => {
       console.log(res.data);
@@ -16,7 +16,6 @@ const build = async ({
     .catch(() => {
       restoreBuild();
     });
-  return response;
 };
 
 module.exports = build;

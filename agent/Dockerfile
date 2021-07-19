@@ -1,11 +1,7 @@
-FROM ubuntu
+FROM node:14
 WORKDIR /agent-container
-
-ARG port=1000
 
 COPY . .
 RUN npm ci
 
-EXPOSE ${port}
-
-CMD npm start port=${port}
+CMD npm start

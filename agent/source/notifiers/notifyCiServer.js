@@ -6,11 +6,11 @@ const setNotifierInterval = (host, port) => {
     instance
       .post('/notify-agent', { host, port })
       .then(() => {
-        console.log('\t...сервер уведомлен о существовании агента');
+        console.log('=> ...сервер уведомлен о существовании агента');
         clearInterval(interval);
       })
       .catch(() => {
-        console.log('\t...неудачная попытка, попробуем ещё через 30 сек!');
+        console.log('=> ...неудачная попытка, попробуем ещё через 30 сек!');
       });
   }, 30000);
 };
@@ -20,11 +20,10 @@ const notifyCiServer = ({ host, port }) => {
   instance
     .post('/notify-agent', { host, port })
     .then(() => {
-      console.log('\t...сервер уведомлен о существовании агента');
+      console.log('=> ...сервер уведомлен о существовании агента');
     })
     .catch(() => {
-      console.log('\t...неудача, попробуем ещё через 30 сек!');
-
+      console.log('=> ...неудача, попробуем ещё через 30 сек!');
       setNotifierInterval(host, port);
     });
 };

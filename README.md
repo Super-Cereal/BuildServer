@@ -4,7 +4,14 @@
 
 1. Скачать этот репозиторий
 
-2. Чтобы запустить CI сервер - `cd server && npm ci && npm start`
+2. Чтобы запустить CI сервер:
+   - `cd server`
+   - Добавить `.env` файл в корень папки с nodejs сервером с единственной строкой
+   ```JS
+   authToken="uuiiayuer"
+   ```
+   Где "uuiiayuer" - токен авторизации(без "Bearer") для [бекенда Яндекса](https://shri.yandex/hw/api/index.html)
+   - `npm ci && npm start`
 
 3. Чтобы запустить агента:
    - `cd agent && npm ci`

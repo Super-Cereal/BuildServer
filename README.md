@@ -8,7 +8,7 @@
    - `cd server`
    - Добавить `.env` файл в корень папки с единственной строкой
    ```JS
-   authToken="uuiiayuer"
+   apiToken="uuiiayuer"
    ```
    Где "uuiiayuer" - токен авторизации(без "Bearer") для [бекенда Яндекса](https://shri.yandex/hw/api/index.html)
    - `npm ci && npm start`
